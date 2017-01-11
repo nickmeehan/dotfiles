@@ -39,17 +39,8 @@ c_git_clean='\[\e[0;32m\]'
 # \e[0;31m\ sets the color to red
 c_git_dirty='\[\e[0;31m\]'
 
-# PS1 is the variable for the prompt you see everytime you hit enter
-if [ $OSTYPE == 'darwin15' ] && ! [ $ITERM_SESSION_ID ]
-then
-  PROMPT_COMMAND=$PROMPT_COMMAND'; PS1="${c_path}\W${c_reset}$(git_prompt) :> "'
-else
-  PROMPT_COMMAND=$PROMPT_COMMAND' PS1="${c_path}\W${c_reset}$(git_prompt) :> "'
-fi
-
 # determines if the git branch you are on is clean or dirty
-git_prompt ()
-{
+git_prompt () {
   # Is this a git directory?
   if ! git rev-parse --git-dir > /dev/null 2>&1; then
     return 0
@@ -64,6 +55,14 @@ git_prompt ()
   fi
   echo " [$git_color$git_branch${c_reset}]"
 }
+
+# PS1 is the variable for the prompt you see everytime you hit enter
+if [ $ITERM_SESSION_ID ]
+then
+  PROMPT_COMMAND=$PROMPT_COMMAND' PS1="${c_path}\W${c_reset}$(git_prompt) :> "'
+else
+  PROMPT_COMMAND=$PROMPT_COMMAND'; PS1="${c_path}\W${c_reset}$(git_prompt) :> "'
+fi
 
 # Colors ls should use for folders, files, symlinks etc, see `man ls` and
 # search for LSCOLORS
@@ -81,3 +80,8 @@ which -s subl && export EDITOR="subl --wait"
 
 alias e="subl"
 alias be="bundle exec"
+
+# Auto-complete branch names
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
