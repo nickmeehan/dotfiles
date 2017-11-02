@@ -68,12 +68,6 @@ alias ls='ls -Gh'
 # Force grep to always use the color option and show line numbers
 export GREP_OPTIONS='--color=always'
 
-# Set sublime as the default editor
-which -s subl && export EDITOR="subl --wait"
-
-# Useful aliases
-
-alias e="subl"
 alias be="bundle exec"
 
 # Auto-complete branch names
